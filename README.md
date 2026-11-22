@@ -1,6 +1,148 @@
 # X (Twitter) API
 
-[中文](#中文) · [English](#english)
+[English](#english) · [中文](#中文)
+
+## English
+
+This repo reads public X (Twitter) data with Python or curl. You can search posts by keyword, read a single post and its replies, and look up an account's profile and posts. You need one EveryInfra API key. You do not need an X (Twitter) account or cookie. The same API also works as an MCP tool in Claude and Cursor. Billing is per call: these 5 capabilities cost $0.56 to $0.79 per 1,000 calls. Failed calls and empty results are not charged. The EveryInfra X (Twitter) API has 21 capabilities; 20 are available now. All are listed on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+### Quick start
+
+```bash
+git clone https://github.com/everyinfra/twitter-api.git
+cd twitter-api
+pip install -r requirements.txt
+export EVERYINFRA_API_KEY=<your API key>
+python main.py search "camping gear" --out posts.csv
+python main.py post <post_id> --out post.json
+python main.py replies <post_id> --out replies.csv
+python main.py user <username>
+python main.py posts <username> --out user_posts.csv
+```
+
+- For `post` and `replies`, pass the `id` from a `search` result. It is the number after x.com/<username>/status/. Do not pass the full link.
+- For `user` and `posts`, pass the `author_username` from a `search` result.
+- Without `--out`, the command prints the first 3 rows as JSON. With `--out`, it saves a .csv or .json file. The CSV has a BOM, so Excel opens it without garbled text.
+- Register at everyinfra.com, then create the API key in the console. Steps: <https://everyinfra.com/en/docs?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api#quickstart>
+
+### curl
+
+```bash
+curl -X POST https://api.everyinfra.com/api/v1/social \
+  -H "Authorization: Bearer $EVERYINFRA_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"platform":"twitter","action":"search","params":{"keyword":"camping gear"}}'
+```
+
+All capabilities use the same URL. Change `action` and `params` to call another one. Examples for `post`, `comments`, `profile`, and `user_posts` are in [examples/curl.sh](examples/curl.sh).
+
+### Claude and Cursor (MCP)
+
+The remote MCP URL is <https://api.everyinfra.com/mcp>. Add the `Authorization: Bearer` header with your API key. EveryInfra runs the server, so you install no local program.
+
+Claude Code:
+
+```bash
+claude mcp add --transport http everyinfra https://api.everyinfra.com/mcp --header "Authorization: Bearer <API Key>"
+```
+
+Cursor and other clients that read `mcp.json` ([examples/mcp.json](examples/mcp.json)):
+
+```json
+{
+  "mcpServers": {
+    "everyinfra": {
+      "url": "https://api.everyinfra.com/mcp",
+      "headers": {
+        "Authorization": "Bearer <API Key>"
+      }
+    }
+  }
+}
+```
+
+Custom connectors in Claude on the web and desktop, and ChatGPT, accept only a URL. Enter <https://api.everyinfra.com/mcp/all>, sign in to EveryInfra when asked, and allow access. You do not need to enter a key. Full steps: <https://everyinfra.com/en/mcp-server?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+### Price
+
+| `action` | Per 1,000 calls |
+|---|---|
+| `search` | $0.79 |
+| `post` | $0.56 |
+| `comments` | $0.56 |
+| `profile` | $0.56 |
+| `user_posts` | $0.56 |
+
+- Billing is per call, about $0.00056 to $0.00079 each. Failed calls, empty results, parameter errors, and authentication failures are not charged.
+- A new account gets a $1 trial allowance, valid for 24 hours. No credit card is needed. How to claim it: <https://everyinfra.com/en/pricing?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+- Prices for the other 15 available X (Twitter) capabilities are on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+### Fields
+
+The fields of each capability are documented on the English pages linked below.
+
+- `search`: <https://everyinfra.com/en/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+- `post`: <https://everyinfra.com/en/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+- `comments`: <https://everyinfra.com/en/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+- `profile`: <https://everyinfra.com/en/twitter-api/profile?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+- `user_posts`: <https://everyinfra.com/en/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+### FAQ
+
+**Do I need an X (Twitter) account or cookie to call the API?**
+
+No. Send the `Authorization: Bearer` header with your API key. The request body holds `platform`, `action`, and the capability parameters. You do not scan a QR code, keep a login session, or open a browser.
+
+**How much does it cost? Are failed calls charged? Is there a free allowance?**
+
+Billing is per call, from $0.56 per 1,000 calls. Failed calls, empty results, parameter errors, and authentication failures are not charged. A new account gets a $1 trial allowance, valid for 24 hours. No credit card is needed. How to claim it: <https://everyinfra.com/en/pricing?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+**Can I connect the X (Twitter) API to Claude or Cursor?**
+
+Yes. The remote MCP URL is <https://api.everyinfra.com/mcp>. Add the `Authorization: Bearer` header with your API key. You install no local program. Setup for Claude, Cursor, ChatGPT, and Claude Code: <https://everyinfra.com/en/mcp-server?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>. An agent can then search X (Twitter) content, read comments, and look up accounts by itself.
+
+**What legal points apply when I use X (Twitter) data?**
+
+The EveryInfra Terms of Service require you to make sure your use of the data follows applicable law and the terms of the relevant platform. Do not use the data for anything illegal or anything that violates privacy or intellectual property rights. Do not use bulk scraping for harassment, fraud, or other abuse. When you use personal information such as nicknames and avatars, keep only the fields your business needs.
+
+**Which X (Twitter) data can I get?**
+
+The EveryInfra X (Twitter) API has 21 capabilities; 20 are available now:
+
+- keyword search
+- profile or object details
+- user content
+- post details
+- comments
+- trending list
+- follower list
+- following list
+- media posts
+- replies tab
+- reposters
+- Profiles by user ID
+- about this account
+- follow check
+- community details
+- community search
+- user search
+- video transcript
+- thread
+- community posts
+
+Parameters and return fields for each capability are on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+### Tested
+
+Before release, we ran the 5 commands in Quick start against the live API with this repo's code.
+
+| Command | Time (Singapore, UTC+8) | Rows | Charged |
+|---|---|---|---|
+| `python main.py search "camping gear" --out posts.csv` | 2026-11-21 09:26 | 25 | $0.000792 |
+| `python main.py post <post_id> --out post.json` | 2026-11-21 09:26 | 1 | $0.000556 |
+| `python main.py replies <post_id> --out replies.csv` | 2026-11-21 09:26 | 14 | $0.000556 |
+| `python main.py user <username>` | 2026-11-21 09:27 | 1 | $0.000556 |
+| `python main.py posts <username> --out user_posts.csv` | 2026-11-21 09:27 | 20 | $0.000556 |
 
 ## 中文
 
@@ -284,148 +426,6 @@ X (Twitter) 有 21 个能力，其中 20 个现在可用：关键词搜索、主
   "language": "en"
 }
 ```
-
-## English
-
-This repo reads public X (Twitter) data with Python or curl. You can search posts by keyword, read a single post and its replies, and look up an account's profile and posts. You need one EveryInfra API key. You do not need an X (Twitter) account or cookie. The same API also works as an MCP tool in Claude and Cursor. Billing is per call: these 5 capabilities cost $0.56 to $0.79 per 1,000 calls. Failed calls and empty results are not charged. The EveryInfra X (Twitter) API has 21 capabilities; 20 are available now. All are listed on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-### Quick start
-
-```bash
-git clone https://github.com/everyinfra/twitter-api.git
-cd twitter-api
-pip install -r requirements.txt
-export EVERYINFRA_API_KEY=<your API key>
-python main.py search "camping gear" --out posts.csv
-python main.py post <post_id> --out post.json
-python main.py replies <post_id> --out replies.csv
-python main.py user <username>
-python main.py posts <username> --out user_posts.csv
-```
-
-- For `post` and `replies`, pass the `id` from a `search` result. It is the number after x.com/<username>/status/. Do not pass the full link.
-- For `user` and `posts`, pass the `author_username` from a `search` result.
-- Without `--out`, the command prints the first 3 rows as JSON. With `--out`, it saves a .csv or .json file. The CSV has a BOM, so Excel opens it without garbled text.
-- Register at everyinfra.com, then create the API key in the console. Steps: <https://everyinfra.com/en/docs?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api#quickstart>
-
-### curl
-
-```bash
-curl -X POST https://api.everyinfra.com/api/v1/social \
-  -H "Authorization: Bearer $EVERYINFRA_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"platform":"twitter","action":"search","params":{"keyword":"camping gear"}}'
-```
-
-All capabilities use the same URL. Change `action` and `params` to call another one. Examples for `post`, `comments`, `profile`, and `user_posts` are in [examples/curl.sh](examples/curl.sh).
-
-### Claude and Cursor (MCP)
-
-The remote MCP URL is <https://api.everyinfra.com/mcp>. Add the `Authorization: Bearer` header with your API key. EveryInfra runs the server, so you install no local program.
-
-Claude Code:
-
-```bash
-claude mcp add --transport http everyinfra https://api.everyinfra.com/mcp --header "Authorization: Bearer <API Key>"
-```
-
-Cursor and other clients that read `mcp.json` ([examples/mcp.json](examples/mcp.json)):
-
-```json
-{
-  "mcpServers": {
-    "everyinfra": {
-      "url": "https://api.everyinfra.com/mcp",
-      "headers": {
-        "Authorization": "Bearer <API Key>"
-      }
-    }
-  }
-}
-```
-
-Custom connectors in Claude on the web and desktop, and ChatGPT, accept only a URL. Enter <https://api.everyinfra.com/mcp/all>, sign in to EveryInfra when asked, and allow access. You do not need to enter a key. Full steps: <https://everyinfra.com/en/mcp-server?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-### Price
-
-| `action` | Per 1,000 calls |
-|---|---|
-| `search` | $0.79 |
-| `post` | $0.56 |
-| `comments` | $0.56 |
-| `profile` | $0.56 |
-| `user_posts` | $0.56 |
-
-- Billing is per call, about $0.00056 to $0.00079 each. Failed calls, empty results, parameter errors, and authentication failures are not charged.
-- A new account gets a $1 trial allowance, valid for 24 hours. No credit card is needed. How to claim it: <https://everyinfra.com/en/pricing?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- Prices for the other 15 available X (Twitter) capabilities are on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-### Fields
-
-The fields of each capability are documented on the English pages linked below.
-
-- `search`: <https://everyinfra.com/en/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `post`: <https://everyinfra.com/en/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `comments`: <https://everyinfra.com/en/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `profile`: <https://everyinfra.com/en/twitter-api/profile?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `user_posts`: <https://everyinfra.com/en/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-### FAQ
-
-**Do I need an X (Twitter) account or cookie to call the API?**
-
-No. Send the `Authorization: Bearer` header with your API key. The request body holds `platform`, `action`, and the capability parameters. You do not scan a QR code, keep a login session, or open a browser.
-
-**How much does it cost? Are failed calls charged? Is there a free allowance?**
-
-Billing is per call, from $0.56 per 1,000 calls. Failed calls, empty results, parameter errors, and authentication failures are not charged. A new account gets a $1 trial allowance, valid for 24 hours. No credit card is needed. How to claim it: <https://everyinfra.com/en/pricing?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-**Can I connect the X (Twitter) API to Claude or Cursor?**
-
-Yes. The remote MCP URL is <https://api.everyinfra.com/mcp>. Add the `Authorization: Bearer` header with your API key. You install no local program. Setup for Claude, Cursor, ChatGPT, and Claude Code: <https://everyinfra.com/en/mcp-server?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>. An agent can then search X (Twitter) content, read comments, and look up accounts by itself.
-
-**What legal points apply when I use X (Twitter) data?**
-
-The EveryInfra Terms of Service require you to make sure your use of the data follows applicable law and the terms of the relevant platform. Do not use the data for anything illegal or anything that violates privacy or intellectual property rights. Do not use bulk scraping for harassment, fraud, or other abuse. When you use personal information such as nicknames and avatars, keep only the fields your business needs.
-
-**Which X (Twitter) data can I get?**
-
-The EveryInfra X (Twitter) API has 21 capabilities; 20 are available now:
-
-- keyword search
-- profile or object details
-- user content
-- post details
-- comments
-- trending list
-- follower list
-- following list
-- media posts
-- replies tab
-- reposters
-- Profiles by user ID
-- about this account
-- follow check
-- community details
-- community search
-- user search
-- video transcript
-- thread
-- community posts
-
-Parameters and return fields for each capability are on the platform page: <https://everyinfra.com/en/twitter-api?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-
-### Tested
-
-Before release, we ran the 5 commands in Quick start against the live API with this repo's code.
-
-| Command | Time (Singapore, UTC+8) | Rows | Charged |
-|---|---|---|---|
-| `python main.py search "camping gear" --out posts.csv` | 2026-11-21 09:26 | 25 | $0.000792 |
-| `python main.py post <post_id> --out post.json` | 2026-11-21 09:26 | 1 | $0.000556 |
-| `python main.py replies <post_id> --out replies.csv` | 2026-11-21 09:26 | 14 | $0.000556 |
-| `python main.py user <username>` | 2026-11-21 09:27 | 1 | $0.000556 |
-| `python main.py posts <username> --out user_posts.csv` | 2026-11-21 09:27 | 20 | $0.000556 |
 
 ## License
 

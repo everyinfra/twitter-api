@@ -79,13 +79,122 @@ Custom connectors in Claude on the web and desktop, and ChatGPT, accept only a U
 
 ### Fields
 
-The fields of each capability are documented on the English pages linked below.
+These are the fields that the 5 capabilities returned in our test. Each meaning is the first sentence of the field's entry in the API documentation. The link under each table has the full text.
 
-- `search`: <https://everyinfra.com/en/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `post`: <https://everyinfra.com/en/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `comments`: <https://everyinfra.com/en/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `profile`: <https://everyinfra.com/en/twitter-api/profile?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
-- `user_posts`: <https://everyinfra.com/en/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+#### `search` (keyword search)
+
+| Field | Meaning |
+|---|---|
+| `id` | The record's unique ID on the platform. |
+| `url` | Link to the record on the platform. |
+| `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
+| `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
+| `view_count` | Views or plays. null means not disclosed, not 0. |
+| `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
+| `author_username` | Author's username (@handle), usually usable in URLs. |
+| `author_name` | Author's display name. |
+| `author_url` | Link to the author's profile on the platform. |
+| `author_follower_count` | Author's follower count. null means not disclosed. |
+| `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `author_id` | Author's unique ID on the platform. |
+| `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+
+Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_quote`, `is_repost`, `media`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_created_at`, `author_banner_url`, and `reply_to_id`.
+
+All parameters and fields: <https://everyinfra.com/en/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+#### `post` (post details)
+
+| Field | Meaning |
+|---|---|
+| `id` | The record's unique ID on the platform. |
+| `url` | Link to the record on the platform. |
+| `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
+| `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
+| `view_count` | Views or plays. null means not disclosed, not 0. |
+| `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
+| `author_username` | Author's username (@handle), usually usable in URLs. |
+| `author_name` | Author's display name. |
+| `author_url` | Link to the author's profile on the platform. |
+| `author_follower_count` | Author's follower count. null means not disclosed. |
+| `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
+| `author_id` | Author's unique ID on the platform. |
+| `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+
+Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_pinned`, `media`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, and `author_banner_url`.
+
+All parameters and fields: <https://everyinfra.com/en/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+#### `comments` (comments)
+
+| Field | Meaning |
+|---|---|
+| `id` | The record's unique ID on the platform. |
+| `url` | Link to the record on the platform. |
+| `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
+| `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
+| `view_count` | Views or plays. null means not disclosed, not 0. |
+| `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
+| `author_username` | Author's username (@handle), usually usable in URLs. |
+| `author_name` | Author's display name. |
+| `author_url` | Link to the author's profile on the platform. |
+| `author_follower_count` | Author's follower count. null means not disclosed. |
+| `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
+| `author_id` | Author's unique ID on the platform. |
+| `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+
+Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_pinned`, `reply_to_id`, `reply_to_user_id`, `reply_to`, `author_avatar_url`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, `author_bio`, `mentions`, `author_banner_url`, and `media`.
+
+All parameters and fields: <https://everyinfra.com/en/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+#### `profile` (profile or object details)
+
+| Field | Meaning |
+|---|---|
+| `user_id` | User's unique ID on the platform. |
+| `username` | Username (@handle). |
+| `display_name` | Display name; can differ from username. |
+| `bio` | Profile bio written by the account; may contain line breaks and emoji. |
+| `url` | Link to the record on the platform. |
+| `follower_count` | Followers. null means not disclosed, not 0. |
+| `following_count` | Accounts followed. null means not disclosed, not 0. |
+| `post_count` | Total posts. null means not disclosed, not 0. |
+| `is_verified` | Whether the platform verified the account. null means it cannot be determined. |
+| `location` | Location description passed through as is; the format varies by platform. |
+| `avatar_url` | Avatar image link. |
+| `created_at` | Creation time, same format as posted_at. |
+| `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+
+All parameters and fields: <https://everyinfra.com/en/twitter-api/profile?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
+
+#### `user_posts` (user content)
+
+| Field | Meaning |
+|---|---|
+| `id` | The record's unique ID on the platform. |
+| `url` | Link to the record on the platform. |
+| `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
+| `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
+| `view_count` | Views or plays. null means not disclosed, not 0. |
+| `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
+| `author_username` | Author's username (@handle), usually usable in URLs. |
+| `author_name` | Author's display name. |
+| `author_url` | Link to the author's profile on the platform. |
+| `author_follower_count` | Author's follower count. null means not disclosed. |
+| `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `author_id` | Author's unique ID on the platform. |
+| `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+| `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
+
+Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_quote`, `is_pinned`, `links`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, `author_banner_url`, `media`, `reply_to_id`, `reply_to_user_id`, `reply_to`, and `mentions`.
+
+All parameters and fields: <https://everyinfra.com/en/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
 ### FAQ
 

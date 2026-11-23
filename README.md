@@ -89,6 +89,7 @@ These are the fields that the 5 capabilities returned in our test. Each meaning 
 | `url` | Link to the record on the platform. |
 | `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
 | `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `retweet_count` | Repost count. |
 | `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
 | `view_count` | Views or plays. null means not disclosed, not 0. |
 | `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
@@ -96,11 +97,24 @@ These are the fields that the 5 capabilities returned in our test. Each meaning 
 | `author_name` | Author's display name. |
 | `author_url` | Link to the author's profile on the platform. |
 | `author_follower_count` | Author's follower count. null means not disclosed. |
+| `quote_count` | Quotes: how many times others have quoted this post in their own posts. null means not disclosed, not 0. |
+| `bookmark_count` | Number of bookmarks (saves). |
 | `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `conversation_id` | ID of the conversation thread (the root post ID); replies in the same thread are grouped by it. |
+| `is_reply` | Whether the post is a reply (every comments row is one); not returned on some requests. |
+| `is_quote` | Whether the post is a quote post. |
+| `is_repost` | Whether the post is a repost (every user_reposts row is one); not returned on some requests. |
+| `media` | Post images and videos: type (photo / video / animated_gif), url (image or video cover), width, height, duration_sec (video seconds), video_url (highest-bitrate mp4). |
 | `author_id` | Author's unique ID on the platform. |
+| `author_avatar_url` | Link to the author's avatar image (on most platforms the link is signed and expires). |
+| `author_bio` | The author's profile bio; not returned on some requests. |
+| `author_is_verified` | Whether the author has the blue verified checkmark; not returned on some requests. |
+| `author_following_count` | How many accounts the author follows; not returned on some requests. |
+| `author_post_count` | Total number of posts by the author. |
+| `author_created_at` | When the author's account was created, ISO 8601 in UTC (for example 2007-12-19T20:20:32+00:00); not returned on some requests. |
+| `author_banner_url` | Link to the author's profile banner image. |
+| `reply_to_id` | ID of the post being replied to; absent when the post is not a reply and on some requests. |
 | `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
-
-Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_quote`, `is_repost`, `media`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_created_at`, `author_banner_url`, and `reply_to_id`.
 
 All parameters and fields: <https://everyinfra.com/en/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -112,6 +126,7 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/search?utm_sou
 | `url` | Link to the record on the platform. |
 | `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
 | `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `retweet_count` | Repost count. |
 | `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
 | `view_count` | Views or plays. null means not disclosed, not 0. |
 | `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
@@ -119,12 +134,24 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/search?utm_sou
 | `author_name` | Author's display name. |
 | `author_url` | Link to the author's profile on the platform. |
 | `author_follower_count` | Author's follower count. null means not disclosed. |
+| `quote_count` | Quotes: how many times others have quoted this post in their own posts. null means not disclosed, not 0. |
+| `bookmark_count` | Number of bookmarks (saves). |
 | `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `conversation_id` | ID of the conversation thread (the root post ID); replies in the same thread are grouped by it. |
+| `is_reply` | Whether the post is a reply (every comments row is one); not returned on some requests. |
+| `is_pinned` | Whether the post is pinned to the top of the author's profile; not returned on some requests. |
+| `media` | Post images and videos: type (photo / video / animated_gif), url (image or video cover), width, height, duration_sec (video seconds), video_url (highest-bitrate mp4). |
 | `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
 | `author_id` | Author's unique ID on the platform. |
+| `author_avatar_url` | Link to the author's avatar image (on most platforms the link is signed and expires). |
+| `author_bio` | The author's profile bio; not returned on some requests. |
+| `author_is_verified` | Whether the author has the blue verified checkmark; not returned on some requests. |
+| `author_following_count` | How many accounts the author follows; not returned on some requests. |
+| `author_post_count` | Total number of posts by the author. |
+| `author_media_count` | Number of media items the author has posted. |
+| `author_created_at` | When the author's account was created, ISO 8601 in UTC (for example 2007-12-19T20:20:32+00:00); not returned on some requests. |
+| `author_banner_url` | Link to the author's profile banner image. |
 | `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
-
-Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_pinned`, `media`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, and `author_banner_url`.
 
 All parameters and fields: <https://everyinfra.com/en/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -136,6 +163,7 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/post?utm_sourc
 | `url` | Link to the record on the platform. |
 | `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
 | `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `retweet_count` | Repost count. |
 | `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
 | `view_count` | Views or plays. null means not disclosed, not 0. |
 | `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
@@ -143,12 +171,28 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/post?utm_sourc
 | `author_name` | Author's display name. |
 | `author_url` | Link to the author's profile on the platform. |
 | `author_follower_count` | Author's follower count. null means not disclosed. |
+| `quote_count` | Quotes: how many times others have quoted this post in their own posts. null means not disclosed, not 0. |
+| `bookmark_count` | Number of bookmarks (saves). |
 | `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `conversation_id` | ID of the conversation thread (the root post ID); replies in the same thread are grouped by it. |
+| `is_reply` | Whether the post is a reply (every comments row is one); not returned on some requests. |
+| `is_pinned` | Whether the post is pinned to the top of the author's profile; not returned on some requests. |
+| `reply_to_id` | ID of the post being replied to; absent when the post is not a reply and on some requests. |
+| `reply_to_user_id` | Numeric ID of the user being replied to. |
+| `reply_to` | Username (without @) of the person being replied to; absent when the post is not a reply and on some requests. |
 | `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
 | `author_id` | Author's unique ID on the platform. |
+| `author_avatar_url` | Link to the author's avatar image (on most platforms the link is signed and expires). |
+| `author_is_verified` | Whether the author has the blue verified checkmark; not returned on some requests. |
+| `author_following_count` | How many accounts the author follows; not returned on some requests. |
+| `author_post_count` | Total number of posts by the author. |
+| `author_media_count` | Number of media items the author has posted. |
+| `author_created_at` | When the author's account was created, ISO 8601 in UTC (for example 2007-12-19T20:20:32+00:00); not returned on some requests. |
+| `author_bio` | The author's profile bio; not returned on some requests. |
 | `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
-
-Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_pinned`, `reply_to_id`, `reply_to_user_id`, `reply_to`, `author_avatar_url`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, `author_bio`, `mentions`, `author_banner_url`, and `media`.
+| `mentions` | Usernames @-mentioned in the text. |
+| `author_banner_url` | Link to the author's profile banner image. |
+| `media` | Post images and videos: type (photo / video / animated_gif), url (image or video cover), width, height, duration_sec (video seconds), video_url (highest-bitrate mp4). |
 
 All parameters and fields: <https://everyinfra.com/en/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -180,6 +224,7 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/profile?utm_so
 | `url` | Link to the record on the platform. |
 | `text` | Body text with HTML removed, returned in full and never cut short (on a few platforms the list results themselves carry only an excerpt; the platform's field notes say so). |
 | `like_count` | Likes. null means the platform or this capability does not disclose it; it is not 0. |
+| `retweet_count` | Repost count. |
 | `reply_count` | Replies, usually replies to a comment. null means not disclosed. |
 | `view_count` | Views or plays. null means not disclosed, not 0. |
 | `posted_at` | Publish time in ISO 8601, UTC (for example 2026-08-07T12:34:56+00:00). |
@@ -187,12 +232,30 @@ All parameters and fields: <https://everyinfra.com/en/twitter-api/profile?utm_so
 | `author_name` | Author's display name. |
 | `author_url` | Link to the author's profile on the platform. |
 | `author_follower_count` | Author's follower count. null means not disclosed. |
+| `quote_count` | Quotes: how many times others have quoted this post in their own posts. null means not disclosed, not 0. |
+| `bookmark_count` | Number of bookmarks (saves). |
 | `language` | Content language code (for example zh, en) as judged by the platform; it can be wrong. |
+| `conversation_id` | ID of the conversation thread (the root post ID); replies in the same thread are grouped by it. |
+| `is_reply` | Whether the post is a reply (every comments row is one); not returned on some requests. |
+| `is_quote` | Whether the post is a quote post. |
+| `is_pinned` | Whether the post is pinned to the top of the author's profile; not returned on some requests. |
+| `links` | External links in the text (full expanded URLs). |
 | `author_id` | Author's unique ID on the platform. |
+| `author_avatar_url` | Link to the author's avatar image (on most platforms the link is signed and expires). |
+| `author_bio` | The author's profile bio; not returned on some requests. |
+| `author_is_verified` | Whether the author has the blue verified checkmark; not returned on some requests. |
+| `author_following_count` | How many accounts the author follows; not returned on some requests. |
+| `author_post_count` | Total number of posts by the author. |
+| `author_media_count` | Number of media items the author has posted. |
+| `author_created_at` | When the author's account was created, ISO 8601 in UTC (for example 2007-12-19T20:20:32+00:00); not returned on some requests. |
+| `author_banner_url` | Link to the author's profile banner image. |
 | `platform` | Source platform identifier, the same as platform in the request (for example xiaohongshu, tiktok). |
+| `media` | Post images and videos: type (photo / video / animated_gif), url (image or video cover), width, height, duration_sec (video seconds), video_url (highest-bitrate mp4). |
+| `reply_to_id` | ID of the post being replied to; absent when the post is not a reply and on some requests. |
+| `reply_to_user_id` | Numeric ID of the user being replied to. |
+| `reply_to` | Username (without @) of the person being replied to; absent when the post is not a reply and on some requests. |
 | `hashtags` | Hashtags in the text, in order of appearance; absent when there are none. |
-
-Other fields that the test returned: `retweet_count`, `quote_count`, `bookmark_count`, `conversation_id`, `is_reply`, `is_quote`, `is_pinned`, `links`, `author_avatar_url`, `author_bio`, `author_is_verified`, `author_following_count`, `author_post_count`, `author_media_count`, `author_created_at`, `author_banner_url`, `media`, `reply_to_id`, `reply_to_user_id`, `reply_to`, and `mentions`.
+| `mentions` | Usernames @-mentioned in the text. |
 
 All parameters and fields: <https://everyinfra.com/en/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -348,18 +411,24 @@ Claude 网页版和桌面版的自定义连接器、ChatGPT 只能填网址：�
 | `author_name` | 作者昵称（显示名）。 |
 | `author_url` | 作者在原平台的主页链接。 |
 | `author_follower_count` | 作者粉丝数。 |
+| `quote_count` | 引用数：别人引用这条推文发帖的次数。 |
 | `bookmark_count` | 书签（收藏）数。 |
 | `language` | 内容语言代码（如 zh、en），由平台判定，可能不准。 |
 | `conversation_id` | 所属对话串 ID（根推文 ID），同一串的回复据此归在一起。 |
+| `is_reply` | 是否为回复（comments 的行都是回复）；部分请求不返回。 |
 | `is_quote` | 是否引用推文。 |
+| `is_repost` | 是否为转推（user_reposts 的行都是转推）；部分请求不返回。 |
 | `media` | 推文图片 / 视频：type（photo / video / animated_gif）、url（图片或视频封面）、width、height、duration_sec（视频秒数）、video_url（码率最高的 mp4）。 |
 | `author_id` | 作者在原平台的唯一 ID。 |
 | `author_avatar_url` | 作者头像图片链接（多数平台带签名、会过期）。 |
+| `author_bio` | 作者主页简介；部分请求不返回。 |
+| `author_is_verified` | 作者是否有蓝标认证；部分请求不返回。 |
+| `author_following_count` | 作者关注的账号数；部分请求不返回。 |
 | `author_post_count` | 作者推文总数。 |
+| `author_created_at` | 作者账号的注册时间，ISO 8601 格式、UTC（如 2007-12-19T20:20:32+00:00）；部分请求不返回。 |
 | `author_banner_url` | 作者主页横幅图链接。 |
+| `reply_to_id` | 被回复的那条推文的 ID；不是回复时没有这个字段，部分请求不返回。 |
 | `platform` | 数据来源平台标识，与请求里的 platform 一致（如 xiaohongshu、tiktok）。 |
-
-实测还返回了 `quote_count`、`is_reply`、`is_repost`、`author_bio`、`author_is_verified`、`author_following_count`、`author_created_at`、`reply_to_id`，接口文档里还没有它们的中文说明，表里没列。
 
 完整参数和字段：<https://everyinfra.com/twitter-api/search?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -379,19 +448,24 @@ Claude 网页版和桌面版的自定义连接器、ChatGPT 只能填网址：�
 | `author_name` | 作者昵称（显示名）。 |
 | `author_url` | 作者在原平台的主页链接。 |
 | `author_follower_count` | 作者粉丝数。 |
+| `quote_count` | 引用数：别人引用这条推文发帖的次数。 |
 | `bookmark_count` | 书签（收藏）数。 |
 | `language` | 内容语言代码（如 zh、en），由平台判定，可能不准。 |
 | `conversation_id` | 所属对话串 ID（根推文 ID），同一串的回复据此归在一起。 |
+| `is_reply` | 是否为回复（comments 的行都是回复）；部分请求不返回。 |
+| `is_pinned` | 是否为作者主页置顶的推文；部分请求不返回。 |
 | `media` | 推文图片 / 视频：type（photo / video / animated_gif）、url（图片或视频封面）、width、height、duration_sec（视频秒数）、video_url（码率最高的 mp4）。 |
 | `hashtags` | 正文里的话题标签数组，按出现顺序；没有时不出现这个字段。 |
 | `author_id` | 作者在原平台的唯一 ID。 |
 | `author_avatar_url` | 作者头像图片链接（多数平台带签名、会过期）。 |
+| `author_bio` | 作者主页简介；部分请求不返回。 |
+| `author_is_verified` | 作者是否有蓝标认证；部分请求不返回。 |
+| `author_following_count` | 作者关注的账号数；部分请求不返回。 |
 | `author_post_count` | 作者推文总数。 |
 | `author_media_count` | 作者发过的媒体数。 |
+| `author_created_at` | 作者账号的注册时间，ISO 8601 格式、UTC（如 2007-12-19T20:20:32+00:00）；部分请求不返回。 |
 | `author_banner_url` | 作者主页横幅图链接。 |
 | `platform` | 数据来源平台标识，与请求里的 platform 一致（如 xiaohongshu、tiktok）。 |
-
-实测还返回了 `quote_count`、`is_reply`、`is_pinned`、`author_bio`、`author_is_verified`、`author_following_count`、`author_created_at`，接口文档里还没有它们的中文说明，表里没列。
 
 完整参数和字段：<https://everyinfra.com/twitter-api/post?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -411,21 +485,28 @@ Claude 网页版和桌面版的自定义连接器、ChatGPT 只能填网址：�
 | `author_name` | 作者昵称（显示名）。 |
 | `author_url` | 作者在原平台的主页链接。 |
 | `author_follower_count` | 作者粉丝数。 |
+| `quote_count` | 引用数：别人引用这条推文发帖的次数。 |
 | `bookmark_count` | 书签（收藏）数。 |
 | `language` | 内容语言代码（如 zh、en），由平台判定，可能不准。 |
 | `conversation_id` | 所属对话串 ID（根推文 ID），同一串的回复据此归在一起。 |
+| `is_reply` | 是否为回复（comments 的行都是回复）；部分请求不返回。 |
+| `is_pinned` | 是否为作者主页置顶的推文；部分请求不返回。 |
+| `reply_to_id` | 被回复的那条推文的 ID；不是回复时没有这个字段，部分请求不返回。 |
 | `reply_to_user_id` | 所回复用户的数字 ID。 |
+| `reply_to` | 被回复的那个人的用户名（不带 @）；不是回复时没有这个字段，部分请求不返回。 |
 | `hashtags` | 正文里的话题标签数组，按出现顺序；没有时不出现这个字段。 |
 | `author_id` | 作者在原平台的唯一 ID。 |
 | `author_avatar_url` | 作者头像图片链接（多数平台带签名、会过期）。 |
+| `author_is_verified` | 作者是否有蓝标认证；部分请求不返回。 |
+| `author_following_count` | 作者关注的账号数；部分请求不返回。 |
 | `author_post_count` | 作者推文总数。 |
 | `author_media_count` | 作者发过的媒体数。 |
+| `author_created_at` | 作者账号的注册时间，ISO 8601 格式、UTC（如 2007-12-19T20:20:32+00:00）；部分请求不返回。 |
+| `author_bio` | 作者主页简介；部分请求不返回。 |
 | `platform` | 数据来源平台标识，与请求里的 platform 一致（如 xiaohongshu、tiktok）。 |
 | `mentions` | 正文里 @ 到的用户名。 |
 | `author_banner_url` | 作者主页横幅图链接。 |
 | `media` | 推文图片 / 视频：type（photo / video / animated_gif）、url（图片或视频封面）、width、height、duration_sec（视频秒数）、video_url（码率最高的 mp4）。 |
-
-实测还返回了 `quote_count`、`is_reply`、`is_pinned`、`reply_to_id`、`reply_to`、`author_is_verified`、`author_following_count`、`author_created_at`、`author_bio`，接口文档里还没有它们的中文说明，表里没列。
 
 完整参数和字段：<https://everyinfra.com/twitter-api/comments?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
@@ -465,23 +546,30 @@ Claude 网页版和桌面版的自定义连接器、ChatGPT 只能填网址：�
 | `author_name` | 作者昵称（显示名）。 |
 | `author_url` | 作者在原平台的主页链接。 |
 | `author_follower_count` | 作者粉丝数。 |
+| `quote_count` | 引用数：别人引用这条推文发帖的次数。 |
 | `bookmark_count` | 书签（收藏）数。 |
 | `language` | 内容语言代码（如 zh、en），由平台判定，可能不准。 |
 | `conversation_id` | 所属对话串 ID（根推文 ID），同一串的回复据此归在一起。 |
+| `is_reply` | 是否为回复（comments 的行都是回复）；部分请求不返回。 |
 | `is_quote` | 是否引用推文。 |
+| `is_pinned` | 是否为作者主页置顶的推文；部分请求不返回。 |
 | `links` | 正文里的外链（展开后的完整网址）。 |
 | `author_id` | 作者在原平台的唯一 ID。 |
 | `author_avatar_url` | 作者头像图片链接（多数平台带签名、会过期）。 |
+| `author_bio` | 作者主页简介；部分请求不返回。 |
+| `author_is_verified` | 作者是否有蓝标认证；部分请求不返回。 |
+| `author_following_count` | 作者关注的账号数；部分请求不返回。 |
 | `author_post_count` | 作者推文总数。 |
 | `author_media_count` | 作者发过的媒体数。 |
+| `author_created_at` | 作者账号的注册时间，ISO 8601 格式、UTC（如 2007-12-19T20:20:32+00:00）；部分请求不返回。 |
 | `author_banner_url` | 作者主页横幅图链接。 |
 | `platform` | 数据来源平台标识，与请求里的 platform 一致（如 xiaohongshu、tiktok）。 |
 | `media` | 推文图片 / 视频：type（photo / video / animated_gif）、url（图片或视频封面）、width、height、duration_sec（视频秒数）、video_url（码率最高的 mp4）。 |
+| `reply_to_id` | 被回复的那条推文的 ID；不是回复时没有这个字段，部分请求不返回。 |
 | `reply_to_user_id` | 所回复用户的数字 ID。 |
+| `reply_to` | 被回复的那个人的用户名（不带 @）；不是回复时没有这个字段，部分请求不返回。 |
 | `hashtags` | 正文里的话题标签数组，按出现顺序；没有时不出现这个字段。 |
 | `mentions` | 正文里 @ 到的用户名。 |
-
-实测还返回了 `quote_count`、`is_reply`、`is_pinned`、`author_bio`、`author_is_verified`、`author_following_count`、`author_created_at`、`reply_to_id`、`reply_to`，接口文档里还没有它们的中文说明，表里没列。
 
 完整参数和字段：<https://everyinfra.com/twitter-api/user_posts?utm_source=github&utm_medium=example_repo&utm_campaign=twitter-api>
 
